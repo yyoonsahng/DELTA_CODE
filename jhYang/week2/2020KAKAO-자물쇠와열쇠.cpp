@@ -8,17 +8,6 @@ using namespace std;
 vector<vector<int> > board;
 vector<vector<int> > b1,b2,b3,b4;
 
-void printboard(vector<vector<int> > v){
-    for(int i = 0; i<v.size(); i++){
-        for(int j= 0; j<v.size(); j++){
-
-            cout<<v[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    cout<<endl;
-}
-
 bool smlchk(vector<vector<int> > bb,int m,int n, int i, int j){
     int cnt = 0;
     for(int a = 0; a<n; a++){
