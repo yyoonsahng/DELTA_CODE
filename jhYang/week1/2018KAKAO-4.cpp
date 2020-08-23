@@ -20,7 +20,7 @@ int solution(int m, int n, vector<string> board) {
         for(int j = 0; j<n; j++){
             char c = board[i][j];
             bool flag = false;
-            
+
             if(c == '#') 
                 continue;
             
