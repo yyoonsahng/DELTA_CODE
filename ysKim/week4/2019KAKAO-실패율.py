@@ -3,18 +3,21 @@ def calculate(N, stages):
     succ = [0 for i in range(N)]
     ans = [0 for i in range(N)]
     result = []
-    sumCount = [0 for i in range(N)]
-    for i in range(N + 1):
-        succ[i] = stages.count(i)
-        if i > 0:
-            succ[i] += succ[i - 1]
-            sumCount[i] += sumCount[i - 1]
-        sumCount[i] += succ[i]
-        ans[i] = stages.count(i + 1) + sumCount[i]
-    for i in range(stages.count(N + 1)):
-        for i in range(len(ans)):
-            ans[i] += 1
-            succ[i] += 1
+    for i in range(len(stages)):
+        if stages[i] == N + 1:
+            for i in range(len(ans)):
+                ans[i] += 1
+                succ[i] += 1
+            continue
+        for j in range(stages[i]):  # chal
+            ans[j] += 1
+            if j != stages[i] - 1:
+                succ[j] += 1
+    for i in range(N):
+        if ans[i] == 0:
+            result.append(0)
+            continue
+        result.append(float(ans[i] - succ[i]) / ans[i])
     return result
 
 def solution(N, stages):
@@ -50,21 +53,18 @@ def solution(N, stages):
     return answer
 '''
 '''
-    for i in range(len(stages)):
-        if stages[i] == N + 1:
-            for i in range(len(ans)):
-                ans[i] += 1
-                succ[i] += 1
-            continue
-        for j in range(stages[i]):  # chal
-            ans[j] += 1
-            if j != stages[i] - 1:
-                succ[j] += 1
-    for i in range(N):
-        if ans[i] == 0:
-            result.append(0)
-            continue
-        result.append(float(ans[i] - succ[i]) / ans[i])
+    sumCount = [0 for i in range(N)]
+    for i in range(N + 1):
+        succ[i] = stages.count(i)
+        if i > 0:
+            succ[i] += succ[i - 1]
+            sumCount[i] += sumCount[i - 1]
+        sumCount[i] += succ[i]
+        ans[i] = stages.count(i + 1) + sumCount[i]
+    for i in range(stages.count(N + 1)):
+        for i in range(len(ans)):
+            ans[i] += 1
+            succ[i] += 1
     return result
 '''
 if __name__ == '__main__':
