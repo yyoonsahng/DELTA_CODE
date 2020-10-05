@@ -7,7 +7,8 @@ int assign;
 vector<int> male;
 vector<int> female;
 
-//dp[a][b] = 작은 배열의 a가 b까지 봤을 때 최소의 차이 합
+//dp[a][b] = 더 작은 배열의 a가 b까지 봤을 때 최소의 차이 합
+//pair<매칭 수, 값>
 pair<int,int> dp[1001][1001];
 
 bool cmp(pair<int,int> &a, pair<int,int> &b){
@@ -22,6 +23,7 @@ bool cmp(pair<int,int> &a, pair<int,int> &b){
     return false;
 }
 void memo(vector<int>& arr1, vector<int> &arr2){
+    //arr1이 더 작은 배열
     dp[0][0].second = abs(arr1[0]-arr2[0]);
     dp[0][0].first = 1;
     for(int j = 1; j<arr2.size(); j++){
@@ -29,20 +31,8 @@ void memo(vector<int>& arr1, vector<int> &arr2){
         dp[0][j].first = 1;
     }
     for(int i = 1; i<arr1.size(); i++){
-        for(int j = 0; j<arr2.size(); j++){
-            if(j+1<arr2.size()){
-                if(dp[i-1][j].second+abs(arr1[i]-arr2[j+1])>dp[i-1][j-1].second+abs(arr1[i]-arr2[j])){
-                    dp[i][j].second = dp[i-1][j-1].second+abs(arr1[i]-arr2[j]);
-                    dp[i][j].first = dp[i-1][j-1].first+1;
-                }
-                else{
-                    dp[i][j].second = dp[i-1][j].second+abs(arr1[i]-arr2[j+1]);
-                    dp[i][j].first = dp[i-1][j].first+1;
-                }
-            }else{
-                dp[i][j].second = dp[i-1][j-1].second+abs(arr1[i]-arr2[j]);
-                dp[i][j].first = dp[i-1][j-1].first+1;
-            }
+        for(int j = 1; j<arr2.size(); j++){
+            dp[i][j].second = dp[i-1][j-1].second+abs(arr1[i]-arr2[j]);
         }
     }
 }
@@ -62,12 +52,12 @@ int main(){
     sort(female.begin(),female.end());
     if(N<M){
         memo(male,female);
-        sort(dp[assign-1],dp[assign-1]+M,cmp);
-        cout<<dp[assign-1][0].second;
+        sort(dp[N-1],dp[N-1]+M,cmp);
+        cout<<dp[N-1][0].second;
     }
     else{
         memo(female,male);
-        sort(dp[assign-1],dp[assign-1]+N,cmp);
-        cout<<dp[assign-1][0].second;
+        sort(dp[M-1],dp[M-1]+N,cmp);
+        cout<<dp[M-1][0].second;
     }
 }
